@@ -201,7 +201,7 @@ with st.sidebar:
     
     st.subheader("Applicant Profile")
     st.session_state.candidate_name = st.text_input("Candidate Name", value=st.session_state.candidate_name, placeholder="Dr. Jane Doe")
-    st.session_state.hospital = st.text_input("Hospital / Institution", value=st.session_state.hospital, placeholder="St. Luke's Hospital")
+    st.session_state.hospital = st.text_input("Hospital / Institution", value=st.session_state.hospital, placeholder="University Hospital Galway")
     st.session_state.supervisors = st.text_input("Supervising MPE Supporter(s)", value=st.session_state.supervisors, placeholder="Prof. J. Smith, MPE")
     
     st.divider()
