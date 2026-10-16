@@ -176,13 +176,13 @@ RATING_OPTIONS = [
 
 SPECIALTIES_CONFIG = {
     "Diagnostic & Interventional Radiology": {
-        "display_name": "KSC SPECIFIC FOR THE MPE IN DIAGNOSTIC & INTERVENTIONAL RADIOLOGY INCORPORATING NUCLEAR MEDICINE",
-        "domain_label": "DIAGNOSTIC & INTERVENTIONAL RADIOLOGY",
+        "display_name": "Diagnostic & Interventional Radiology (incl. Nuclear Medicine)",
+        "domain_label": "Diagnostic & Interventional Radiology",
         "c_table": TABLE_C1,
         "matrix_caption": "Tables A, B & C1 Summary"
     },
     "Radiotherapy Physics": {
-        "display_name": "KSC SPECIFIC FOR THE MPE IN RADIATION ONCOLOGY/RADIOTHERAPY",
+        "display_name": "Radiotherapy Physics (Radiation Oncology)",
         "domain_label": "Radiotherapy Physics",
         "c_table": TABLE_C2,
         "matrix_caption": "Tables A, B & C2 Summary"
@@ -222,6 +222,10 @@ def reset_state():
     st.session_state.answers[spec] = {}
     st.session_state.current_idx = 0
 
+def handle_specialty_change():
+    """Callback function triggered instantly when the selectbox value changes."""
+    st.session_state.current_idx = 0
+
 def handle_backup_upload():
     """Callback function triggered when a JSON backup is uploaded."""
     uploaded_file = st.session_state.get("backup_uploader")
@@ -252,7 +256,7 @@ def handle_backup_upload():
             st.error(f"Failed to parse JSON backup file: {e}")
 
 def generate_word_report():
-    """Generates the Section 4b Word document based on user inputs and active specialty."""
+    """Generates a Word document including the competency matrix table and detailed audit data."""
     doc = Document()
     today_str = datetime.now().strftime("%Y-%m-%d")
     spec_key = st.session_state.selected_specialty
@@ -260,7 +264,7 @@ def generate_word_report():
     active_data = get_active_dataset()
     current_answers = st.session_state.answers.get(spec_key, {})
     
-    doc.add_heading("MPE Equivalence Demonstration Audit Report (Section 4b)", level=0)
+    doc.add_heading("MPE Equivalence Demonstration Audit Report", level=0)
     
     doc.add_paragraph(f"Specialty Domain:  {domain_label}")
     doc.add_paragraph(f"Generated Date: {today_str}")
@@ -270,7 +274,26 @@ def generate_word_report():
     doc.add_paragraph(f"Hospital / Institution: {st.session_state.hospital or 'N/A'}", style="List Bullet")
     doc.add_paragraph(f"Supervising MPE Supporter(s): {st.session_state.supervisors or 'N/A'}", style="List Bullet")
     
-    doc.add_heading("2. Detailed Knowledge, Skills & Competency (KSC) Audit Matrix", level=1)
+    # Competency Overview Matrix Table Summary included in Word report
+    doc.add_heading("2. Competency Overview Matrix Summary", level=1)
+    matrix_table = doc.add_table(rows=1, cols=3)
+    matrix_table.style = 'Table Grid'
+    hdr_cells = matrix_table.rows[0].cells
+    hdr_cells[0].text = "Code"
+    hdr_cells[1].text = "Requirement Title"
+    hdr_cells[2].text = "Self-Rating"
+    
+    for k in active_data:
+        ans = current_answers.get(k["code"], {})
+        rating_val = ans.get("rating", "Unrated")
+        row_cells = matrix_table.add_row().cells
+        row_cells[0].text = k["code"]
+        row_cells[1].text = k["title"]
+        row_cells[2].text = rating_val
+        
+    doc.add_paragraph() # Spacing
+    
+    doc.add_heading("3. Detailed Knowledge, Skills & Competency (KSC) Audit Matrix", level=1)
     
     for k in active_data:
         ans = current_answers.get(k["code"], {})
@@ -284,7 +307,7 @@ def generate_word_report():
         doc.add_paragraph("Clinical Documentary Evidence:")
         doc.add_paragraph(evidence, style="Quote")
 
-    doc.add_heading("3. Applicant & Supervisor Declarations", level=1)
+    doc.add_heading("4. Applicant & Supervisor Declarations", level=1)
     doc.add_paragraph("I confirm that the ratings and clinical documentary evidence detailed in this cross-reference report accurately reflect my professional experience and practice.\n")
     
     doc.add_paragraph(f"Candidate Signature: ___________________________    Date: {today_str}")
@@ -296,29 +319,11 @@ def generate_word_report():
     return buffer
 
 # ==============================================================================
-# MAIN APPLICATION LAYOUT & SPECIALTY SWITCHING
+# MAIN APPLICATION LAYOUT & SIDEBAR CONFIGURATION
 # ==============================================================================
 
 st.set_page_config(page_title="MPE Competency Assessment Suite", layout="wide")
 init_state()
-
-# Top Specialty Selector
-st.markdown("### Medical Physics Expert (MPE) Specialty Selection")
-specialty_options = list(SPECIALTIES_CONFIG.keys())
-selected_display_label = SPECIALTIES_CONFIG[st.session_state.selected_specialty]["display_name"]
-
-chosen_specialty = st.selectbox(
-    "Select MPE Specialty Framework",
-    options=specialty_options,
-    format_func=lambda x: SPECIALTIES_CONFIG[x]["display_name"],
-    index=specialty_options.index(st.session_state.selected_specialty)
-)
-
-if chosen_specialty != st.session_state.selected_specialty:
-    st.session_state.selected_specialty = chosen_specialty
-    st.session_state.current_idx = 0
-    st.info(f"Switched active specialty to: {SPECIALTIES_CONFIG[chosen_specialty]['display_name']}. Existing ratings and evidence are kept isolated per specialty store.")
-    st.rerun()
 
 active_ksc_data = get_active_dataset()
 current_answers = st.session_state.answers.setdefault(st.session_state.selected_specialty, {})
@@ -335,6 +340,19 @@ with st.sidebar:
     st.session_state.hospital = st.text_input("Hospital / Institution", value=st.session_state.hospital, placeholder="Galway University Hospital")
     st.session_state.supervisors = st.text_input("Supervising MPE Supporter(s)", value=st.session_state.supervisors, placeholder="Prof. J. Smith, MPE")
     
+    st.divider()
+    st.subheader("Specialty Framework")
+    specialty_options = list(SPECIALTIES_CONFIG.keys())
+    
+    st.selectbox(
+        "Select MPE Specialty Framework",
+        options=specialty_options,
+        format_func=lambda x: SPECIALTIES_CONFIG[x]["display_name"],
+        key="selected_specialty",
+        on_change=handle_specialty_change,
+        label_visibility="collapsed"
+    )
+
     st.divider()
     st.metric(label="Total Completion", value=f"{int(progress_pct * 100)}%", delta=f"{completed_count} of {total_count} rated", delta_color="normal")
     st.progress(progress_pct)
@@ -372,7 +390,7 @@ with st.sidebar:
         st.rerun()
 
 # Native Tab Navigation
-tab1, tab2, tab3 = st.tabs(["Sequential Evaluation", "Competency Matrix", "Section 4b Audit Report"])
+tab1, tab2, tab3 = st.tabs(["Sequential Evaluation", "Competency Matrix", "Audit Report"])
 
 # ------------------------------------------------------------------------------
 # TAB 1: SEQUENTIAL EVALUATION
@@ -434,7 +452,7 @@ with tab1:
     )
     
     st.text_area(
-        "2. Clinical Documentary Evidence & Portfolio References (Section 4b)", 
+        "2. Clinical Documentary Evidence", 
         value=current_ans["evidence"], 
         height=150, 
         key=f"f_evidence_{current_code}", 
@@ -478,10 +496,10 @@ with tab2:
     st.dataframe(df, use_container_width=True, hide_index=True)
 
 # ------------------------------------------------------------------------------
-# TAB 3: SECTION 4B AUDIT REPORT
+# TAB 3: AUDIT REPORT
 # ------------------------------------------------------------------------------
 with tab3:
-    st.subheader("Section 4b Audit Summary Report")
+    st.subheader("Audit Summary Report")
     
     word_buffer = generate_word_report()
     
