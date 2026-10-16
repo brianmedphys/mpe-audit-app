@@ -211,7 +211,7 @@ total_count = len(KSC_DATA)
 progress_pct = completed_count / total_count if total_count > 0 else 0
 
 # Sidebar Configuration
-#with st.sidebar:
+with st.sidebar:
  #   st.header("MPE Equivalence")
    # st.caption("Section 4b Audit Suite")
  #   st.divider()
