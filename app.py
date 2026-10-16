@@ -103,7 +103,7 @@ KSC_DATA = [
         "description": "Focuses on statutory requirements and management of professional and ethical issues associated with consultancy involving high levels of ionizing radiation ."
     },
     {
-        "table": "Table C2", "code": "C2.9", "title": "Education of Healthcare Professionals in RO",
+        "table": "Table C2", "code": "C2.9", "title": "Education of Healthcare Professionals in Radiation Oncology",
         "description": "Covers statutory requirements and specialized education/training addressing the clinical use of high levels of ionizing radiation for healthcare professionals and trainees ."
     },
     {
