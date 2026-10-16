@@ -211,10 +211,10 @@ total_count = len(KSC_DATA)
 progress_pct = completed_count / total_count if total_count > 0 else 0
 
 # Sidebar Configuration
-with st.sidebar:
-    st.header("MPE Equivalence")
-    st.caption("Section 4b Audit Suite")
-    st.divider()
+#with st.sidebar:
+ #   st.header("MPE Equivalence")
+   # st.caption("Section 4b Audit Suite")
+ #   st.divider()
     
     st.subheader("Applicant Profile")
     st.session_state.candidate_name = st.text_input("Candidate Name", value=st.session_state.candidate_name, placeholder="Dr. Jane Doe")
