@@ -9,6 +9,7 @@ from datetime import datetime
 # KSC DATASET (TABLE A, TABLE B, TABLE C2)
 # ==============================================================================
 KSC_DATA = [
+    # ========================== TABLE A ==========================
     {
         "table": "Table A", "code": "A1.1", "title": "Radiation Physics & Matter Interactions",
         "description": "Comprehensive understanding of atomic/nuclear physics, radiation production, photon/electron/hadron interactions with matter, and attenuation physics in tissue."
@@ -41,6 +42,8 @@ KSC_DATA = [
         "table": "Table A", "code": "A4.1", "title": "Medical Informatics, Networking & Cybersecurity",
         "description": "DICOM/DICOM-RT standards, PACS/OIS database management, system networking, data security, HIPAA/GDPR compliance, and algorithm software validation."
     },
+    
+    # ========================== TABLE B ==========================
     {
         "table": "Table B", "code": "B1.1", "title": "Clinical Governance & Quality Management Systems",
         "description": "Implementation of comprehensive departmental QMS, ISO quality standards, clinical audit protocols, and document control procedures."
@@ -65,37 +68,51 @@ KSC_DATA = [
         "table": "Table B", "code": "B3.2", "title": "Continuing Professional Development (CPD) & Education",
         "description": "Maintaining personal CPD portfolios, delivering technical training to multidisciplinary teams, and mentoring junior physicists and trainees."
     },
+
+    # ========================== TABLE C2 ==========================
     {
-        "table": "Table C2", "code": "C2.1", "title": "External Beam Equipment Commissioning & QA",
-        "description": "Acceptance testing, beam data commissioning, and routine quality assurance (daily, monthly, annual) of C-arm linacs, specialized platforms (CyberKnife, Halcyon, MR-Linac), and kilovoltage units."
+        "table": "Table C2", "code": "C2.1", "title": "Scientific Problem Solving Service",
+        "description": "Explains statutory requirements, operation of treatment devices (cobalt units, medical linacs, robotic linacs, particle systems), external beam techniques, in-room imaging, and algorithm limitations ."
     },
     {
-        "table": "Table C2", "code": "C2.2", "title": "Reference Dosimetry & International Codes of Practice",
-        "description": "Absolute dose determination using IAEA TRS-398 or AAPM TG-51 protocols for megavoltage photon and electron beams under reference conditions."
+        "table": "Table C2", "code": "C2.2", "title": "External Beam & Brachytherapy Dosimetry Measurement",
+        "description": "Covers dosimetry terminology (PDD, TMR, TPR), IAEA absorbed dose protocols, in-vivo dosimetry, calibration chains, reference dosimetry, and source strength determinations ."
     },
     {
-        "table": "Table C2", "code": "C2.3", "title": "Treatment Planning System (TPS) Commissioning & Modeling",
-        "description": "Beam modeling in TPS, algorithm validation (AAA, Collapsed Cone Convolution, Monte Carlo, Acuros XB), grid size sensitivity, and heterogeneous medium dose calculation."
+        "table": "Table C2", "code": "C2.3", "title": "Patient Safety / Dose Optimisation",
+        "description": "Explains radiobiological dose-effect relationships, tissue responses, treatment planning, and optimization principles for photons, electrons, protons, heavy ions, and brachytherapy ."
     },
     {
-        "table": "Table C2", "code": "C2.4", "title": "Advanced Delivery Techniques (IMRT, VMAT, SBRT/SRS)",
-        "description": "Planning, optimization, inverse planning parameters, leaf sequencing, small field dosimetry (IAEA TRS-483), and high-dose stereotactic delivery techniques."
+        "table": "Table C2", "code": "C2.4", "title": "Occupational & Public Safety / Dose Optimisation",
+        "description": "Covers statutory requirements, occupational/public risk estimation in radiotherapy, source transport/handling regulations, and safety plan design ."
     },
     {
-        "table": "Table C2", "code": "C2.5", "title": "Patient-Specific Quality Assurance (PSQA)",
-        "description": "Pre-treatment verification using 2D/3D detector arrays, EPID dosimetry, portal dose image prediction, and gamma index analysis (3%/2mm, 2%/2mm criteria)."
+        "table": "Table C2", "code": "C2.5", "title": "Clinical Medical Device Management in Radiation Oncology",
+        "description": "Explains hardware/software specifications for treatment units, TPS, networking standards (DICOM/DICOM-RT), acceptance testing, commissioning, quality control, and source management ."
     },
     {
-        "table": "Table C2", "code": "C2.6", "title": "Image-Guided Radiotherapy (IGRT) & Surface-Guided RT (SGRT)",
-        "description": "Commissioning and QA of 2D/3D in-room imaging systems (kV/MV CBCT, planar imaging), optical surface tracking, respiratory gating, and motion management."
+        "table": "Table C2", "code": "C2.6", "title": "Clinical Involvement in Radiation Oncology",
+        "description": "Covers oncogenesis, radiobiology models, TCP/NTCP, ICRU volume definitions (GTV, CTV, PTV), plan optimization, IMRT/VMAT/SBRT delivery, motion management, and brachytherapy ."
     },
     {
-        "table": "Table C2", "code": "C2.7", "title": "Brachytherapy Equipment, Treatment Planning & Physics",
-        "description": "High-Dose-Rate (HDR) and Low-Dose-Rate (LDR) source handling, TG-43 dosimetry formalism, applicator reconstruction, dwell time optimization, emergency procedures, and source exchange calibration."
+        "table": "Table C2", "code": "C2.7", "title": "Development of Service Quality & Cost-Effectiveness in RO",
+        "description": "Covers statutory requirements and leadership in multi-disciplinary quality development across all steps of the radiotherapy treatment chain (simulation, planning, verification, delivery, reporting) ."
     },
     {
-        "table": "Table C2", "code": "C2.8", "title": "Unintended & Accidental Medical Exposures in Radiotherapy",
-        "description": "Safety interlocks, error prevention in treatment delivery, dose miscalculation investigations, reporting protocols to national competent authorities (HIQA), and preventive actions."
+        "table": "Table C2", "code": "C2.8", "title": "Expert Consultancy in Radiation Oncology",
+        "description": "Focuses on statutory requirements and management of professional and ethical issues associated with consultancy involving high levels of ionizing radiation ."
+    },
+    {
+        "table": "Table C2", "code": "C2.9", "title": "Education of Healthcare Professionals in RO",
+        "description": "Covers statutory requirements and specialized education/training addressing the clinical use of high levels of ionizing radiation for healthcare professionals and trainees ."
+    },
+    {
+        "table": "Table C2", "code": "C2.10", "title": "Technology Assessment in Radiation Oncology",
+        "description": "Covers statutory requirements, health technology assessments (HTA), and management of research medical exposures and clinical trials involving high levels of ionizing radiation ."
+    },
+    {
+        "table": "Table C2", "code": "C2.11", "title": "Innovation in Radiation Oncology",
+        "description": "Focuses on identification, management, and responsibility for legal and technical issues associated with innovation and new developments in radiation oncology and high-dose radiation ."
     }
 ]
 
@@ -201,7 +218,7 @@ with st.sidebar:
     
     st.subheader("Applicant Profile")
     st.session_state.candidate_name = st.text_input("Candidate Name", value=st.session_state.candidate_name, placeholder="Dr. Jane Doe")
-    st.session_state.hospital = st.text_input("Hospital / Institution", value=st.session_state.hospital, placeholder="University Hospital Galway")
+    st.session_state.hospital = st.text_input("Hospital / Institution", value=st.session_state.hospital, placeholder="St. Luke's Hospital")
     st.session_state.supervisors = st.text_input("Supervising MPE Supporter(s)", value=st.session_state.supervisors, placeholder="Prof. J. Smith, MPE")
     
     st.divider()
